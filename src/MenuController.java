@@ -25,20 +25,23 @@ public class MenuController extends MenuBar
     protected static final String PREV = "Prev";
     protected static final String SAVE = "Save";
     protected static final String VIEW = "View";
+
     protected static final String TESTFILE = "testPresentation.xml";
     protected static final String SAVEFILE = "savedPresentation.xml";
+
     protected static final String IOEX = "IO Exception: ";
+
     protected static final String LOADERR = "Load Error";
     protected static final String SAVEERR = "Save Error";
-    private static final long serialVersionUID = 227L;
-    private final Frame parent; //The frame, only used as parent for the Dialogs
-    private final Presentation presentation; //Commands are given to the presentation
 
+    private static final long serialVersionUID = 227L;
+
+    private final Frame parent; //The frame, only used as parent for the Dialogs
 
     public MenuController(Frame frame, Presentation pres)
     {
         parent = frame;
-        presentation = pres;
+        //Commands are given to the presentation
 
         Menu fileMenu = new Menu(FILE);
         add(fileMenu);
@@ -47,15 +50,16 @@ public class MenuController extends MenuBar
         Menu helpMenu = new Menu(HELP);
         add(helpMenu);
 
-        createOpenPresentation(fileMenu, presentation);
-        createNewPresentation(fileMenu, presentation);
-        createSavePresentation(fileMenu, presentation);
-        createExitPresentation(fileMenu, presentation);
-        createNextSlide(viewMenu, presentation);
-        createPreviousSlide(viewMenu, presentation);
-        createGoTo(viewMenu, presentation);
-        createAbout(helpMenu, presentation);
+        createOpenPresentation(fileMenu, pres);
+        createNewPresentation(fileMenu, pres);
+        createSavePresentation(fileMenu, pres);
+        createExitPresentation(fileMenu, pres);
 
+        createNextSlide(viewMenu, pres);
+        createPreviousSlide(viewMenu, pres);
+        createGoTo(viewMenu, pres);
+
+        createAbout(helpMenu, pres);
     }
 
     //Creating a menu-item
