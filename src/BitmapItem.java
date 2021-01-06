@@ -1,11 +1,8 @@
-import java.awt.Rectangle;
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.io.File;
-
-import javax.imageio.ImageIO;
-
 import java.io.IOException;
 
 
@@ -21,8 +18,8 @@ import java.io.IOException;
 */
 
 public class BitmapItem extends SlideItem {
-  private BufferedImage bufferedImage;
-  private String imageName;
+	private BufferedImage bufferedImage;
+	private final String imageName;
   
   protected static final String FILE = "File ";
   protected static final String NOTFOUND = " not found";
@@ -51,19 +48,21 @@ public class BitmapItem extends SlideItem {
 	}
 
 	//Returns the bounding box of the image
-	public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style myStyle) {
-		return new Rectangle((int) (myStyle.indent * scale), 0,
-				(int) (bufferedImage.getWidth(observer) * scale),
-				((int) (myStyle.leading * scale)) + 
-				(int) (bufferedImage.getHeight(observer) * scale));
+	public Rectangle getBoundingBox(Graphics g, ImageObserver observer, float scale, Style myStyle)
+	{
+		return new Rectangle((int) (myStyle.getIndent() * scale), 0,
+							 (int) (bufferedImage.getWidth(observer) * scale),
+							 ((int) (myStyle.getLeading() * scale)) +
+									 (int) (bufferedImage.getHeight(observer) * scale));
 	}
 
 	//Draws the image
-	public void draw(int x, int y, float scale, Graphics g, Style myStyle, ImageObserver observer) {
-		int width = x + (int) (myStyle.indent * scale);
-		int height = y + (int) (myStyle.leading * scale);
-		g.drawImage(bufferedImage, width, height,(int) (bufferedImage.getWidth(observer)*scale),
-                (int) (bufferedImage.getHeight(observer)*scale), observer);
+	public void draw(int x, int y, float scale, Graphics g, Style myStyle, ImageObserver observer)
+	{
+		int width = x + (int) (myStyle.getIndent() * scale);
+		int height = y + (int) (myStyle.getLeading() * scale);
+		g.drawImage(bufferedImage, width, height, (int) (bufferedImage.getWidth(observer) * scale),
+					(int) (bufferedImage.getHeight(observer) * scale), observer);
 	}
 
 	public String toString() {
