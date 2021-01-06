@@ -144,7 +144,7 @@ public class MenuController extends MenuBar
         {
             public void actionPerformed(ActionEvent actionEvent)
             {
-                presentation.exit(0);
+                System.exit(0);
             }
         });
     }
@@ -187,7 +187,9 @@ public class MenuController extends MenuBar
             public void actionPerformed(ActionEvent actionEvent)
             {
                 String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
+
                 int pageNumber = Integer.parseInt(pageNumberStr);
+
                 presentation.setSlideNumber(pageNumber - 1);
             }
         });

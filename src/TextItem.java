@@ -1,17 +1,13 @@
-import java.awt.Rectangle;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.font.TextLayout;
-import java.awt.font.TextAttribute;
-import java.awt.font.LineBreakMeasurer;
+import java.awt.*;
 import java.awt.font.FontRenderContext;
+import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
+import java.awt.font.TextLayout;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.ImageObserver;
 import java.text.AttributedString;
-import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * <p>A text item.</p>
@@ -23,7 +19,7 @@ import java.util.ArrayList;
 
 public class TextItem extends SlideItem
 {
-    private String text;
+    private final String text;
 
     private static final String EMPTYTEXT = "No Text Given";
 
@@ -34,51 +30,78 @@ public class TextItem extends SlideItem
         text = string;
     }
 
-    //An empty textitem
     public TextItem()
     {
         this(0, EMPTYTEXT);
     }
 
-    //Returns the text
     public String getText()
     {
-        return text == null ? "" : text;
+        return text == null ? EMPTYTEXT : text;
     }
 
-    //Returns the AttributedString for the Item
+    /**
+     * Returns the AttributedString for the Item
+     *
+     * @param style the Style by the String
+     * @param scale the scale used by the String
+     * @return AttributedString
+     */
     public AttributedString getAttributedString(Style style, float scale)
     {
         AttributedString attrStr = new AttributedString(getText());
+
         attrStr.addAttribute(TextAttribute.FONT, style.getFont(scale), 0, text.length());
+
         return attrStr;
     }
 
-    //Returns the bounding box of an Item
+    /**
+     * Returns the bounding box of an item
+     *
+     * @param g        the graphics used to draw on the bounding box
+     * @param observer ImageObserver used while the image is being drawn
+     * @param scale    the scale used by the text
+     * @param myStyle  the style used by the text
+     * @return Rectangle - has the size of the boundingBox
+     */
     public Rectangle getBoundingBox(Graphics g, ImageObserver observer,
                                     float scale, Style myStyle)
     {
         List<TextLayout> layouts = getLayouts(g, myStyle, scale);
+
         int xsize = 0, ysize = (int) (myStyle.leading * scale);
-        Iterator<TextLayout> iterator = layouts.iterator();
-        while (iterator.hasNext())
+
+        for (TextLayout layout : layouts)
         {
-            TextLayout layout = iterator.next();
             Rectangle2D bounds = layout.getBounds();
+
             if (bounds.getWidth() > xsize)
             {
                 xsize = (int) bounds.getWidth();
             }
+
             if (bounds.getHeight() > 0)
             {
                 ysize += bounds.getHeight();
             }
+
             ysize += layout.getLeading() + layout.getDescent();
         }
+
         return new Rectangle((int) (myStyle.indent * scale), 0, xsize, ysize);
     }
 
-    //Draws the item
+    /**
+     * Draws a TextItem
+     *
+     * @param x       the x axis starting point for drawing
+     * @param y       the y axis starting point for drawing
+     * @param scale   the scale used to draw the item
+     * @param g       the Graphics used to draw the item
+     * @param myStyle the style used to draw the item
+     * @param o       ImageObserver used while the item is being drawn
+     */
     public void draw(int x, int y, float scale, Graphics g,
                      Style myStyle, ImageObserver o)
     {
@@ -86,37 +109,61 @@ public class TextItem extends SlideItem
         {
             return;
         }
+
         List<TextLayout> layouts = getLayouts(g, myStyle, scale);
+
         Point pen = new Point(x + (int) (myStyle.indent * scale),
-                y + (int) (myStyle.leading * scale));
+                              y + (int) (myStyle.leading * scale));
+
         Graphics2D g2d = (Graphics2D) g;
+
         g2d.setColor(myStyle.color);
-        Iterator<TextLayout> it = layouts.iterator();
-        while (it.hasNext())
+
+        for (TextLayout layout : layouts)
         {
-            TextLayout layout = it.next();
             pen.y += layout.getAscent();
+
             layout.draw(g2d, pen.x, pen.y);
+
             pen.y += layout.getDescent();
         }
     }
 
+    /**
+     * Gets the TextLayouts of TextItems
+     *
+     * @param g     Graphics used in the text layouts
+     * @param s     Style used in the text layouts
+     * @param scale scale used by the text layouts
+     * @return 'List<TextLayout>' - List of all the layouts used
+     */
     private List<TextLayout> getLayouts(Graphics g, Style s, float scale)
     {
-        List<TextLayout> layouts = new ArrayList<TextLayout>();
+        List<TextLayout> layouts = new ArrayList<>();
+
         AttributedString attrStr = getAttributedString(s, scale);
+
         Graphics2D g2d = (Graphics2D) g;
         FontRenderContext frc = g2d.getFontRenderContext();
+
         LineBreakMeasurer measurer = new LineBreakMeasurer(attrStr.getIterator(), frc);
+
         float wrappingWidth = (Slide.WIDTH - s.indent) * scale;
+
         while (measurer.getPosition() < getText().length())
         {
             TextLayout layout = measurer.nextLayout(wrappingWidth);
             layouts.add(layout);
         }
+
         return layouts;
     }
 
+    /**
+     * returns the TextItem level and contained text
+     *
+     * @return String
+     */
     public String toString()
     {
         return "TextItem[" + getLevel() + "," + getText() + "]";
