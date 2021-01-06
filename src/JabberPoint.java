@@ -31,7 +31,7 @@ public class JabberPoint {
 		{
 			if (argv.length == 0)
 			{ //a demo presentation
-				Accessor.getDemoAccessor().loadFile(presentation, "");
+				Accessor.openDemoPresentation(presentation);
 			}
 			else
 			{
