@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * <p>The applicatiewindow for a slideviewcomponent</p>
@@ -27,16 +29,16 @@ public class SlideViewerFrame extends JFrame
         setWithSlideViewerComponent(slideViewerComponent, presentation);
     }
 
-    //Setup the GUI
     public void setupWindow()
     {
-//        addWindowListener(new WindowAdapter()
-//        {
-//            public void windowClosing(WindowEvent e)
-//            {
-//                System.exit(0);
-//            }
-//        });
+        // makes sure that the application quits when x button is pressed
+        addWindowListener(new WindowAdapter()
+        {
+            public void windowClosing(WindowEvent e)
+            {
+                System.exit(0);
+            }
+        });
 
         this.setSize(new Dimension(WIDTH, HEIGHT));
 
