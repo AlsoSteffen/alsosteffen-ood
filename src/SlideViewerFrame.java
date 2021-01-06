@@ -25,11 +25,11 @@ public class SlideViewerFrame extends JFrame
 
 
         setFrameControllers(presentation);
-        setupWindow();
+        setupWindow(slideViewerComponent.getPreferredSize());
         setWithSlideViewerComponent(slideViewerComponent, presentation);
     }
 
-    public void setupWindow()
+    public void setupWindow(Dimension dimension)
     {
         // makes sure that the application quits when x button is pressed
         addWindowListener(new WindowAdapter()
@@ -40,7 +40,7 @@ public class SlideViewerFrame extends JFrame
             }
         });
 
-        this.setSize(new Dimension(WIDTH, HEIGHT));
+        this.setSize(dimension);
 
         this.setVisible(true);
     }
