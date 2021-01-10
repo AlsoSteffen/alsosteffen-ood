@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -34,6 +32,9 @@ public class MenuController extends MenuBar
     protected static final String LOADERR = "Load Error";
     protected static final String SAVEERR = "Save Error";
 
+    private final XMLAccessor xmlAccessor;
+    private MenuItem menuItem;
+
     private static final long serialVersionUID = 227L;
 
     private final Frame parent; //The frame, only used as parent for the Dialogs
@@ -41,8 +42,10 @@ public class MenuController extends MenuBar
     public MenuController(Frame frame, Presentation pres)
     {
         parent = frame;
-        //Commands are given to the presentation
 
+        this.xmlAccessor = new XMLAccessor();
+
+        // Commands are given to the presentation
         Menu fileMenu = new Menu(FILE);
         add(fileMenu);
         Menu viewMenu = new Menu(VIEW);
@@ -53,7 +56,7 @@ public class MenuController extends MenuBar
         createOpenPresentation(fileMenu, pres);
         createNewPresentation(fileMenu, pres);
         createSavePresentation(fileMenu, pres);
-        createExitPresentation(fileMenu, pres);
+        createExitPresentation(fileMenu);
 
         createNextSlide(viewMenu, pres);
         createPreviousSlide(viewMenu, pres);
@@ -70,154 +73,89 @@ public class MenuController extends MenuBar
 
     private void createOpenPresentation(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
+        menu.add(this.menuItem = mkMenuItem(OPEN));
 
-        menu.add(menuItem = mkMenuItem(OPEN));
-
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                presentation.clear();
-                Accessor xmlAccessor = new XMLAccessor();
-                try
-                {
-                    xmlAccessor.loadFile(presentation, TESTFILE);
-                    presentation.setSlideNumber(0);
-                }
-                catch (IOException exc)
-                {
-                    JOptionPane.showMessageDialog(parent, IOEX + exc,
-                                                  LOADERR, JOptionPane.ERROR_MESSAGE);
-                }
-                parent.repaint();
-            }
-        });
+        this.menuItem.addActionListener(actionEvent ->
+                                        {
+                                            presentation.clear();
+                                            try
+                                            {
+                                                this.xmlAccessor.loadFile(presentation, TESTFILE);
+                                                presentation.setSlideNumber(0);
+                                            }
+                                            catch (IOException exc)
+                                            {
+                                                JOptionPane.showMessageDialog(this.parent, IOEX + exc,
+                                                                              LOADERR, JOptionPane.ERROR_MESSAGE);
+                                            }
+                                            parent.repaint();
+                                        });
     }
 
     private void createNewPresentation(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
-
-        menu.add(menuItem = mkMenuItem(NEW));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                presentation.clear();
-                parent.repaint();
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(NEW));
+        this.menuItem.addActionListener(actionEvent ->
+                                        {
+                                            presentation.clear();
+                                            this.parent.repaint();
+                                        });
     }
 
     private void createSavePresentation(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
-
-        menu.add(menuItem = mkMenuItem(SAVE));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                Accessor xmlAccessor = new XMLAccessor();
-                try
-                {
-                    xmlAccessor.saveFile(presentation, SAVEFILE);
-                }
-                catch (IOException exc)
-                {
-                    JOptionPane.showMessageDialog(parent, IOEX + exc,
-                                                  SAVEERR, JOptionPane.ERROR_MESSAGE
-                                                 );
-                }
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(SAVE));
+        this.menuItem.addActionListener(e ->
+                                        {
+                                            try
+                                            {
+                                                this.xmlAccessor.saveFile(presentation, SAVEFILE);
+                                            }
+                                            catch (IOException exc)
+                                            {
+                                                JOptionPane.showMessageDialog(this.parent, IOEX + exc,
+                                                                              SAVEERR, JOptionPane.ERROR_MESSAGE
+                                                                             );
+                                            }
+                                        });
     }
 
-    private void createExitPresentation(Menu menu, Presentation presentation)
+    private void createExitPresentation(Menu menu)
     {
-        MenuItem menuItem;
-
         menu.addSeparator();
-        menu.add(menuItem = mkMenuItem(EXIT));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                System.exit(0);
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(EXIT));
+        this.menuItem.addActionListener(actionEvent -> System.exit(0));
     }
 
     private void createNextSlide(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
-
-        menu.add(menuItem = mkMenuItem(NEXT));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                presentation.nextSlide();
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(NEXT));
+        this.menuItem.addActionListener(actionEvent -> presentation.nextSlide());
     }
 
     private void createPreviousSlide(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
-
-        menu.add(menuItem = mkMenuItem(PREV));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                presentation.prevSlide();
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(PREV));
+        this.menuItem.addActionListener(actionEvent -> presentation.prevSlide());
     }
 
     private void createGoTo(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
+        menu.add(this.menuItem = mkMenuItem(GOTO));
+        this.menuItem.addActionListener(actionEvent ->
+                                        {
+                                            String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
 
-        menu.add(menuItem = mkMenuItem(GOTO));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
+                                            int pageNumber = Integer.parseInt(pageNumberStr);
 
-                int pageNumber = Integer.parseInt(pageNumberStr);
-
-                presentation.setSlideNumber(pageNumber - 1);
-            }
-        });
+                                            presentation.setSlideNumber(pageNumber - 1);
+                                        });
     }
 
     private void createAbout(Menu menu, Presentation presentation)
     {
-        MenuItem menuItem;
-
-        menu.add(menuItem = mkMenuItem(ABOUT));
-        menuItem.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent actionEvent)
-            {
-                String message = "JabberPoint is a primitive slide-show program in Java(tm). It\n" +
-                        "is freely copyable as long as you keep this notice and\n" +
-                        "the splash screen intact.\n" +
-                        "Copyright (c) 1995-1997 by Ian F. Darwin, ian@darwinsys.com.\n" +
-                        "Adapted by Gert Florijn (version 1.1) and " +
-                        "Sylvia Stuurman (version 1.2 and higher) for the Open" +
-                        "University of the Netherlands, 2002 -- now.\n" +
-                        "Author's version available from http://www.darwinsys.com/";
-
-                String title = "About JabberPoint";
-
-                JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
+        menu.add(this.menuItem = mkMenuItem(ABOUT));
+        this.menuItem.addActionListener(actionEvent -> CreateDefaultDisplay.openAboutBox(this.parent));
     }
 
 }

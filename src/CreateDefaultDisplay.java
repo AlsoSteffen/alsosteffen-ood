@@ -1,21 +1,25 @@
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.*;
 
-/**
- * <p>An Accessor makes it possible to read and write data
- * for a presentation.</p>
- * <p>Non-abstract subclasses should implement the load and save methods.</p>
- *
- * @author Ian F. Darwin, ian@darwinsys.com, Gert Florijn, Sylvia Stuurman
- * @version 1.6 2014/05/16 Sylvia Stuurman
- */
-
-public abstract class Accessor
+public class CreateDefaultDisplay
 {
     public static final String DEMO_NAME = "Demo presentation";
 
-    abstract public void loadFile(Presentation p, String fn) throws IOException;
+    public static void openAboutBox(Component parent)
+    {
+        String message = "JabberPoint is a primitive slide-show program in Java(tm). It\n" +
+                "is freely copyable as long as you keep this notice and\n" +
+                "the splash screen intact.\n" +
+                "Copyright (c) 1995-1997 by Ian F. Darwin, ian@darwinsys.com.\n" +
+                "Adapted by Gert Florijn (version 1.1) and " +
+                "Sylvia Stuurman (version 1.2 and higher) for the Open" +
+                "University of the Netherlands, 2002 -- now.\n" +
+                "Author's version available from http://www.darwinsys.com/";
 
-    abstract public void saveFile(Presentation p, String fn) throws IOException;
+        String title = "About JabberPoint";
+
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
 
     public static void openDemoPresentation(Presentation presentation)
     {
