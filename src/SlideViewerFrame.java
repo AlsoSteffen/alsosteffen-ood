@@ -29,6 +29,11 @@ public class SlideViewerFrame extends JFrame
         setWithSlideViewerComponent(slideViewerComponent, presentation);
     }
 
+    /**
+     * Sets the properties of the window
+     *
+     * @param dimension Dimension - size of the window
+     */
     public void setupWindow(Dimension dimension)
     {
         // makes sure that the application quits when x button is pressed
@@ -45,6 +50,12 @@ public class SlideViewerFrame extends JFrame
         this.setVisible(true);
     }
 
+    /**
+     * Sets the view of the presentation
+     *
+     * @param slideViewerComponent SlideViewerComponent used in setting the window view
+     * @param presentation         Presentation the slide is being added to
+     */
     public void setWithSlideViewerComponent(SlideViewerComponent slideViewerComponent, Presentation presentation)
     {
         presentation.setShowView(slideViewerComponent);
@@ -52,6 +63,11 @@ public class SlideViewerFrame extends JFrame
         getContentPane().add(slideViewerComponent);
     }
 
+    /**
+     * Adds the controllers for the presentation
+     *
+     * @param presentation the presentation to control
+     */
     public void setFrameControllers(Presentation presentation)
     {
         this.addKeyListener(new KeyController(presentation));
