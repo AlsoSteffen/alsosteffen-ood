@@ -80,7 +80,7 @@ public class Presentation
      */
     public void prevSlide()
     {
-            setSlideNumber(currentSlideNumber - 1);
+        setSlideNumber(currentSlideNumber - 1);
     }
 
     /**
@@ -88,23 +88,28 @@ public class Presentation
      */
     public void nextSlide()
     {
-            setSlideNumber(currentSlideNumber + 1);
+        setSlideNumber(currentSlideNumber + 1);
     }
 
-    //Remove the presentation
+    /**
+     * clears the slides of a presentation
+     */
     void clear()
     {
         showList = new ArrayList<>();
         this.currentSlideNumber = -1;
     }
 
-    //Add a slide to the presentation
+    /**
+     * adds a slide to the presentation
+     *
+     * @param slide the slide to add to the presentation
+     */
     public void append(Slide slide)
     {
         showList.add(slide);
     }
 
-    //Return a slide with a specific number
     public Slide getSlide(int number)
     {
         if (number < 0 || number >= getSize())
@@ -114,10 +119,8 @@ public class Presentation
         return showList.get(number);
     }
 
-    //Return the current slide
     public Slide getCurrentSlide()
     {
         return getSlide(currentSlideNumber);
     }
-
 }
