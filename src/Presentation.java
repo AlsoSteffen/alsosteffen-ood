@@ -60,30 +60,18 @@ public class Presentation
      * Sets the slide number at startup and when going to specific slides
      *
      * @param number the slide number to go - if the number isn't within
-     *               the range of the slide numbers, it goes to the lowest/highest
-     *               in the direction instead.
+     *               the range of the slide numbers, it stays at the same slide
      */
     public void setSlideNumber(int number)
     {
-        currentSlideNumber = number;
-
-        setCurrentSlideValid();
+        if (number >= 0 && number <= this.getSize() - 1)
+        {
+            currentSlideNumber = number;
+        }
 
         if (slideViewComponent != null)
         {
             slideViewComponent.update(this, getCurrentSlide());
-        }
-    }
-
-    public void setCurrentSlideValid()
-    {
-        if (this.currentSlideNumber < 0)
-        {
-            this.currentSlideNumber = 0;
-        }
-        else if (this.currentSlideNumber > this.getSize() - 1)
-        {
-            this.currentSlideNumber = this.getSize() - 1;
         }
     }
 
@@ -92,10 +80,7 @@ public class Presentation
      */
     public void prevSlide()
     {
-        if (currentSlideNumber > 0)
-        {
             setSlideNumber(currentSlideNumber - 1);
-        }
     }
 
     /**
@@ -103,17 +88,14 @@ public class Presentation
      */
     public void nextSlide()
     {
-        if (currentSlideNumber < (showList.size() - 1))
-        {
             setSlideNumber(currentSlideNumber + 1);
-        }
     }
 
     //Remove the presentation
     void clear()
     {
         showList = new ArrayList<>();
-        setSlideNumber(-1);
+        this.currentSlideNumber = -1;
     }
 
     //Add a slide to the presentation
