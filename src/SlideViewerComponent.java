@@ -13,17 +13,13 @@ public class SlideViewerComponent extends JComponent
 {
 
     private Slide slide; //The current slide
-    private Font labelFont = null; //The font for labels
-    private Presentation presentation = null; //The presentation
-    private JFrame frame = null;
+    private final JFrame frame;
+    private Presentation presentation; //The presentation
 
     private static final long serialVersionUID = 227L;
 
     private static final Color BGCOLOR = Color.white;
     private static final Color COLOR = Color.black;
-    private static final String FONTNAME = "Dialog";
-    private static final int FONTSTYLE = Font.BOLD;
-    private static final int FONTHEIGHT = 10;
     private static final int XPOS = 1100;
     private static final int YPOS = 20;
 
@@ -33,26 +29,33 @@ public class SlideViewerComponent extends JComponent
 
         presentation = pres;
 
-        labelFont = new Font(FONTNAME, FONTSTYLE, FONTHEIGHT);
-
         this.frame = frame;
     }
 
+    /**
+     * Gets the default dimension of the component
+     *
+     * @return Dimension - the default dimensions of the component
+     */
     public Dimension getPreferredSize()
     {
         return new Dimension(Slide.getWidth(), Slide.getHeight());
     }
 
+    /**
+     * Updates the contents of the slide
+     *
+     * @param presentation the presentation to update the contents
+     * @param data         the data to add to the updated slide
+     */
     public void update(Presentation presentation, Slide data)
     {
         if (data == null)
         {
-            repaint();
             return;
         }
 
         this.presentation = presentation;
-
         this.slide = data;
 
         repaint();
@@ -60,7 +63,11 @@ public class SlideViewerComponent extends JComponent
         frame.setTitle(presentation.getTitle());
     }
 
-    //Draw the slide
+    /**
+     * paints the components of the slide
+     *
+     * @param g Graphics used in painting the components
+     */
     public void paintComponent(Graphics g)
     {
         paintBackground(g, BGCOLOR);
@@ -75,6 +82,12 @@ public class SlideViewerComponent extends JComponent
         slide.draw(g, getTextArea(), this);
     }
 
+    /**
+     * Paints the text of the slide
+     *
+     * @param g     Graphics used in painting the text
+     * @param color Color to paint the text
+     */
     private void paintText(Graphics g, Color color)
     {
         g.setFont(Font.getFont(Font.SERIF));
@@ -83,12 +96,23 @@ public class SlideViewerComponent extends JComponent
                              presentation.getSize(), XPOS, YPOS);
     }
 
+    /**
+     * Paints the background of the slide
+     *
+     * @param g     Graphics used in painting the background
+     * @param color Color to paint the background
+     */
     private void paintBackground(Graphics g, Color color)
     {
         g.setColor(color);
         g.fillRect(0, 0, getSize().width, getSize().height);
     }
 
+    /**
+     * Gets the area the text is painted in
+     *
+     * @return Rectangle - sized according to the slide
+     */
     private Rectangle getTextArea()
     {
         return new Rectangle(0, YPOS, getWidth(), (getHeight() - YPOS));
