@@ -65,12 +65,23 @@ public class MenuController extends MenuBar
         createAbout(helpMenu, pres);
     }
 
-    //Creating a menu-item
+    /**
+     * Creates a new menu item
+     *
+     * @param name name of the item to be added
+     * @return MenuItem - the MenuItem to add to the menu
+     */
     public MenuItem mkMenuItem(String name)
     {
         return new MenuItem(name, new MenuShortcut(name.charAt(0)));
     }
 
+    /**
+     * Creates functionality for opening a presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createOpenPresentation(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(OPEN));
@@ -92,6 +103,13 @@ public class MenuController extends MenuBar
                                         });
     }
 
+
+    /**
+     * Creates functionality for creating a new presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createNewPresentation(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(NEW));
@@ -102,6 +120,13 @@ public class MenuController extends MenuBar
                                         });
     }
 
+
+    /**
+     * Creates functionality for saving a presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createSavePresentation(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(SAVE));
@@ -120,6 +145,12 @@ public class MenuController extends MenuBar
                                         });
     }
 
+
+    /**
+     * Creates functionality for exiting the presentation
+     *
+     * @param menu the menu to add the menuItem to
+     */
     private void createExitPresentation(Menu menu)
     {
         menu.addSeparator();
@@ -127,18 +158,39 @@ public class MenuController extends MenuBar
         this.menuItem.addActionListener(actionEvent -> System.exit(0));
     }
 
+
+    /**
+     * Creates functionality for going to the next slide of a presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createNextSlide(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(NEXT));
         this.menuItem.addActionListener(actionEvent -> presentation.nextSlide());
     }
 
+
+    /**
+     * Creates functionality for going to the previous slide of a presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createPreviousSlide(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(PREV));
         this.menuItem.addActionListener(actionEvent -> presentation.prevSlide());
     }
 
+
+    /**
+     * Creates functionality for going to a specific slide of the presentation
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createGoTo(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(GOTO));
@@ -152,6 +204,13 @@ public class MenuController extends MenuBar
                                         });
     }
 
+
+    /**
+     * Creates functionality for the about window
+     *
+     * @param menu         the menu to add the menuItem to
+     * @param presentation the presentation the functionality applies to
+     */
     private void createAbout(Menu menu, Presentation presentation)
     {
         menu.add(this.menuItem = mkMenuItem(ABOUT));
