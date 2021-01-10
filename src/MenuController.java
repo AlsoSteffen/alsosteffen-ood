@@ -10,26 +10,24 @@ import java.io.IOException;
  */
 public class MenuController extends MenuBar
 {
+    // Text for File Menu
+    protected static final String FILE = "File",
+            EXIT = "Exit", NEW = "New", SAVE = "Save", OPEN = "Open";
 
-    protected static final String ABOUT = "About";
-    protected static final String FILE = "File";
-    protected static final String EXIT = "Exit";
-    protected static final String GOTO = "Go to";
-    protected static final String HELP = "Help";
-    protected static final String NEW = "New";
-    protected static final String NEXT = "Next";
-    protected static final String OPEN = "Open";
-    protected static final String PAGENR = "Page number?";
-    protected static final String PREV = "Prev";
-    protected static final String SAVE = "Save";
-    protected static final String VIEW = "View";
+    // Text for Help Menu
+    protected static final String HELP = "Help",
+            ABOUT = "About";
 
-    protected static final String TESTFILE = "testPresentation.xml";
-    protected static final String SAVEFILE = "savedPresentation.xml";
+    protected static final String VIEW = "View",
+            GOTO = "Go to", PAGENR = "Page number?",
+            PREV = "Prev", NEXT = "Next";
+
+
+    protected static final String TESTFILE = "testPresentation.xml",
+            SAVEFILE = "savedPresentation.xml";
 
     protected static final String IOEX = "IO Exception: ";
 
-    protected static final String LOADERR = "Load Error";
     protected static final String SAVEERR = "Save Error";
 
     private final XMLAccessor xmlAccessor;
@@ -47,11 +45,11 @@ public class MenuController extends MenuBar
 
         // Commands are given to the presentation
         Menu fileMenu = new Menu(FILE);
-        add(fileMenu);
+        this.add(fileMenu);
         Menu viewMenu = new Menu(VIEW);
-        add(viewMenu);
+        this.add(viewMenu);
         Menu helpMenu = new Menu(HELP);
-        add(helpMenu);
+        this.add(helpMenu);
 
         createOpenPresentation(fileMenu, pres);
         createNewPresentation(fileMenu, pres);
@@ -89,16 +87,8 @@ public class MenuController extends MenuBar
         this.menuItem.addActionListener(actionEvent ->
                                         {
                                             presentation.clear();
-                                            try
-                                            {
-                                                this.xmlAccessor.loadFile(presentation, TESTFILE);
-                                                presentation.setSlideNumber(0);
-                                            }
-                                            catch (IOException exc)
-                                            {
-                                                JOptionPane.showMessageDialog(this.parent, IOEX + exc,
-                                                                              LOADERR, JOptionPane.ERROR_MESSAGE);
-                                            }
+                                            this.xmlAccessor.loadFile(presentation, TESTFILE);
+                                            presentation.setSlideNumber(0);
                                             parent.repaint();
                                         });
     }

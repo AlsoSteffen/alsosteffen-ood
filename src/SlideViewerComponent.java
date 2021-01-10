@@ -18,10 +18,8 @@ public class SlideViewerComponent extends JComponent
 
     private static final long serialVersionUID = 227L;
 
-    private static final Color BGCOLOR = Color.white;
-    private static final Color COLOR = Color.black;
-    private static final int XPOS = 1100;
-    private static final int YPOS = 20;
+    private static final Color BGCOLOR = Color.white, COLOR = Color.black;
+    private static final int XPOS = 1100, YPOS = 20;
 
     public SlideViewerComponent(Presentation pres, JFrame frame)
     {
