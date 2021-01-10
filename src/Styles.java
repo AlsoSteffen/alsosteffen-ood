@@ -15,6 +15,12 @@ public class Styles
         styles[4] = new Style(90, Color.black, 24, 10);    // style voor item-level 4
     }
 
+    /**
+     * Gets a Style object
+     *
+     * @param level the level of the style to get
+     * @return Style - the style at the selected level
+     */
     public static Style getStyle(int level)
     {
         if (level >= styles.length)
