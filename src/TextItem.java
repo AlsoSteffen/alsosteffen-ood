@@ -148,7 +148,7 @@ public class TextItem extends SlideItem
 
         LineBreakMeasurer measurer = new LineBreakMeasurer(attrStr.getIterator(), frc);
 
-        float wrappingWidth = (Slide.WIDTH - s.getIndent()) * scale;
+        float wrappingWidth = (Slide.getWidth() - s.getIndent()) * scale;
 
         while (measurer.getPosition() < getText().length())
         {
