@@ -26,13 +26,13 @@
 			sciences
 		</item>
 		<item kind="text" level="1"></item>
-		<item kind="image" level="2">media/logo-woordmerk_ou.gif</item>
-		<item kind="image" level="2">media/logo_nhlstenden.jpg</item>
+		<item kind="image" level="2">logo-woordmerk_ou.gif</item>
+		<item kind="image" level="2">logo_nhlstenden.jpg</item>
 		<item kind="text" level="1"></item>
 		<item kind="text" level="1">The exercise is developed by the SERC</item>
 		<item kind="text" level="1">in collaboration with the Open university</item>
 		<item kind="text" level="1"></item>
-		<item kind="image" level="2">media/serclogo_fc.jpg</item>
+		<item kind="image" level="2">serclogo_fc.jpg</item>
 	</slide>
 	<slide>
 		<title>JabberPoint: Levels and styles</title>
@@ -49,7 +49,7 @@
 		<item kind="text" level="2">Load a presentation: File->Open</item>
 		<item kind="text" level="1"></item>
 		<item kind="text" level="1">This is the end of the presentation.</item>
-		<item kind="image" level="1">media/JabberPoint.jpg</item>
+		<item kind="image" level="1">JabberPoint.jpg</item>
 		<item kind="text" level="1">Goodbye.</item>
 	</slide>
 </presentation>

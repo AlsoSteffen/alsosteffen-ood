@@ -31,6 +31,6 @@
         <item kind="text" level="2">use File->Open from the menu.</item>
         <item kind="text" level="1"></item>
         <item kind="text" level="1">This is the end of the presentation.</item>
-        <item kind="image" level="1">media/JabberPoint.jpg</item>
+        <item kind="image" level="1">JabberPoint.jpg</item>
     </slide>
 </presentation>

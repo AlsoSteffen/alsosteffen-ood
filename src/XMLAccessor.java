@@ -1,4 +1,3 @@
-import enumarations.XmlAttributes;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -31,6 +30,15 @@ public class XMLAccessor
     protected static final String DEFAULT_API_TO_USE = "dom";
 
     /**
+     * Names of xml tags of attributes
+     */
+    protected static final String SHOWTITLE = "showtitle",
+            SLIDETITLE = "title",
+            SLIDE = "slide", ITEM = "item",
+            LEVEL = "level", KIND = "kind",
+            TEXT = "text", IMAGE = "image";
+
+    /**
      * Text of messages
      */
     protected static final String PCE = "Parser Configuration Exception",
@@ -57,9 +65,9 @@ public class XMLAccessor
             DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             Document document = builder.parse(new File(filename)); //Create a JDOM document
             Element doc = document.getDocumentElement();
-            NodeList slides = doc.getElementsByTagName(XmlAttributes.SLIDE.getAttribute());
+            NodeList slides = doc.getElementsByTagName(SLIDE);
 
-            presentation.setTitle(getTitle(doc, XmlAttributes.SLIDETITLE.getAttribute()));
+            presentation.setTitle(getTitle(doc, SHOWTITLE));
 
 
             loadSlideElements(slides, presentation);
@@ -96,11 +104,11 @@ public class XMLAccessor
             Element xmlSlide = (Element) slides.item(slideNumber);
 
             slide = new Slide();
-            slide.setTitle(getTitle(xmlSlide, XmlAttributes.SLIDETITLE.getAttribute()));
+            slide.setTitle(getTitle(xmlSlide, SLIDETITLE));
 
             presentation.append(slide);
 
-            NodeList slideItems = xmlSlide.getElementsByTagName(XmlAttributes.ITEM.getAttribute());
+            NodeList slideItems = xmlSlide.getElementsByTagName(ITEM);
             maxItems = slideItems.getLength();
             for (itemNumber = 0; itemNumber < maxItems; itemNumber++)
             {
@@ -113,17 +121,17 @@ public class XMLAccessor
     private void loadSlideItem(Slide slide, Element item)
     {
         NamedNodeMap attributes = item.getAttributes();
-        String textLevel = attributes.getNamedItem(XmlAttributes.LEVEL.getAttribute()).getTextContent();
+        String textLevel = attributes.getNamedItem(LEVEL).getTextContent();
 
         int level = loadTextLevel(textLevel);
 
-        String type = attributes.getNamedItem(XmlAttributes.KIND.getAttribute()).getTextContent();
+        String type = attributes.getNamedItem(KIND).getTextContent();
 
-        if (XmlAttributes.TEXT.getAttribute().equals(type))
+        if (TEXT.equals(type))
         {
             slide.append(new TextItem(level, item.getTextContent()));
         }
-        else if (XmlAttributes.IMAGE.getAttribute().equals(type))
+        else if (IMAGE.equals(type))
         {
             slide.append(new BitmapItem(level, item.getTextContent()));
         }
