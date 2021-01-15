@@ -1,3 +1,5 @@
+import enumarations.Controls;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -10,19 +12,6 @@ import java.io.IOException;
  */
 public class MenuController extends MenuBar
 {
-    // Text for File Menu
-    protected static final String FILE = "File",
-            EXIT = "Exit", NEW = "New", SAVE = "Save", OPEN = "Open";
-
-    // Text for Help Menu
-    protected static final String HELP = "Help",
-            ABOUT = "About";
-
-    protected static final String VIEW = "View",
-            GOTO = "Go to", PAGENR = "Page number?",
-            PREV = "Prev", NEXT = "Next";
-
-
     protected static final String TESTFILE = "testPresentation.xml",
             SAVEFILE = "savedPresentation.xml";
 
@@ -44,11 +33,11 @@ public class MenuController extends MenuBar
         this.xmlAccessor = new XMLAccessor();
 
         // Commands are given to the presentation
-        Menu fileMenu = new Menu(FILE);
+        Menu fileMenu = new Menu(Controls.NEW.getControl());
         this.add(fileMenu);
-        Menu viewMenu = new Menu(VIEW);
+        Menu viewMenu = new Menu(Controls.VIEW.getControl());
         this.add(viewMenu);
-        Menu helpMenu = new Menu(HELP);
+        Menu helpMenu = new Menu(Controls.HELP.getControl());
         this.add(helpMenu);
 
         createOpenPresentation(fileMenu, pres);
@@ -82,7 +71,7 @@ public class MenuController extends MenuBar
      */
     private void createOpenPresentation(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(OPEN));
+        menu.add(this.menuItem = mkMenuItem(Controls.OPEN.getControl()));
 
         this.menuItem.addActionListener(actionEvent ->
                                         {
@@ -102,7 +91,7 @@ public class MenuController extends MenuBar
      */
     private void createNewPresentation(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(NEW));
+        menu.add(this.menuItem = mkMenuItem(Controls.NEW.getControl()));
         this.menuItem.addActionListener(actionEvent ->
                                         {
                                             presentation.clear();
@@ -119,7 +108,7 @@ public class MenuController extends MenuBar
      */
     private void createSavePresentation(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(SAVE));
+        menu.add(this.menuItem = mkMenuItem(Controls.SAVE.getControl()));
         this.menuItem.addActionListener(e ->
                                         {
                                             try
@@ -144,7 +133,7 @@ public class MenuController extends MenuBar
     private void createExitPresentation(Menu menu)
     {
         menu.addSeparator();
-        menu.add(this.menuItem = mkMenuItem(EXIT));
+        menu.add(this.menuItem = mkMenuItem(Controls.EXIT.getControl()));
         this.menuItem.addActionListener(actionEvent -> System.exit(0));
     }
 
@@ -157,7 +146,7 @@ public class MenuController extends MenuBar
      */
     private void createNextSlide(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(NEXT));
+        menu.add(this.menuItem = mkMenuItem(Controls.NEXT.getControl()));
         this.menuItem.addActionListener(actionEvent -> presentation.nextSlide());
     }
 
@@ -170,7 +159,7 @@ public class MenuController extends MenuBar
      */
     private void createPreviousSlide(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(PREV));
+        menu.add(this.menuItem = mkMenuItem(Controls.PREV.getControl()));
         this.menuItem.addActionListener(actionEvent -> presentation.prevSlide());
     }
 
@@ -183,10 +172,10 @@ public class MenuController extends MenuBar
      */
     private void createGoTo(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(GOTO));
+        menu.add(this.menuItem = mkMenuItem(Controls.GOTO.getControl()));
         this.menuItem.addActionListener(actionEvent ->
                                         {
-                                            String pageNumberStr = JOptionPane.showInputDialog(PAGENR);
+                                            String pageNumberStr = JOptionPane.showInputDialog(Controls.PAGENR.getControl());
 
                                             int pageNumber = Integer.parseInt(pageNumberStr);
 
@@ -203,7 +192,7 @@ public class MenuController extends MenuBar
      */
     private void createAbout(Menu menu, Presentation presentation)
     {
-        menu.add(this.menuItem = mkMenuItem(ABOUT));
+        menu.add(this.menuItem = mkMenuItem(Controls.ABOUT.getControl()));
         this.menuItem.addActionListener(actionEvent -> CreateDefaultDisplay.openAboutBox(this.parent));
     }
 
